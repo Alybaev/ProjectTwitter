@@ -2,10 +2,13 @@ package com.icoder.twitterproject.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.SyncStateContract
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Toast
 import com.icoder.twitterproject.R
+import com.icoder.twitterproject.utils.Constants
+import com.icoder.twitterproject.utils.Constants.Companion.USER_ID_KEY
 import com.twitter.sdk.android.core.*
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -48,15 +51,14 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun login(session: TwitterSession) {
-        val username = session.userName
-        Log.e("________", session.userId.toString())
-        Log.e("________", session.userName.toString())
+
         val intent = Intent(this@LoginActivity, Homepage::class.java)
-        intent.putExtra("username", session.userId)
+        intent.putExtra(USER_ID_KEY, session.userId)
+
         startActivity(intent)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int , data: Intent) {
         super.onActivityResult(requestCode, resultCode, data)
 
         // Pass the activity result to the login button.

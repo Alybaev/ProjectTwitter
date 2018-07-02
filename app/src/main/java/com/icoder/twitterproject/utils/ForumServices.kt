@@ -6,6 +6,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface ForumServices {
-    @GET("forecast?")
-    fun getTweetsData( @Query("q")name: String,@Query("mode") mode: String) : Call<TweetData>
+    @GET("user_timeline.json?")
+    fun getTweetsData( @Query("user_id")userId: Long) : Call<ArrayList<TweetData>>
 }

@@ -51,4 +51,7 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
     //Twitter4j
     implementation 'org.twitter4j:twitter4j-core:4.0.2'
+    //For authentication
+    implementation 'com.loopj.android:android-async-http:1.4.9'
+    implementation 'com.google.code.gson:gson:2.8.0'
 }

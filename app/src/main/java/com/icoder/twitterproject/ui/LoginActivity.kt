@@ -2,12 +2,11 @@ package com.icoder.twitterproject.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.provider.SyncStateContract
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Toast
 import com.icoder.twitterproject.R
-import com.icoder.twitterproject.utils.Constants
+import com.icoder.twitterproject.ui.Homepage.Homepage
 import com.icoder.twitterproject.utils.Constants.Companion.USER_ID_KEY
 import com.twitter.sdk.android.core.*
 import kotlinx.android.synthetic.main.activity_login.*

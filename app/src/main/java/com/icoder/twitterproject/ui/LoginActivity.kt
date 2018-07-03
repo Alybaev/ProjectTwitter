@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Toast
 import com.icoder.twitterproject.R
+import com.icoder.twitterproject.R.id.login_button
 import com.icoder.twitterproject.ui.Homepage.Homepage
 import com.icoder.twitterproject.utils.Constants.Companion.USER_ID_KEY
 import com.twitter.sdk.android.core.*
@@ -19,7 +20,6 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Twitter.initialize(this)
         setContentView(R.layout.activity_login)
-
 
         /*
           Adding a callback to loginButton

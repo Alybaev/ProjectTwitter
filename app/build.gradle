@@ -32,9 +32,11 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     // Include all the Twitter APIs
-    compile 'com.twitter.sdk.android:twitter:3.1.1'
+    implementation 'com.twitter.sdk.android:twitter:3.1.1'
+    implementation 'com.twitter.sdk.android:tweet-ui:3.1.1'
+    implementation 'com.twitter.sdk.android:tweet-composer:3.1.1'
     // (Optional) Monetize using mopub
-    compile 'com.twitter.sdk.android:twitter-mopub:3.1.1'
+    implementation 'com.twitter.sdk.android:twitter-mopub:3.1.1'
     // recyclerview
     implementation 'com.android.support:recyclerview-v7:27.1.1'
     //retrofit 2
@@ -42,16 +44,13 @@ dependencies {
     //retrofit Json
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     implementation 'com.google.android.gms:play-services-maps:15.0.1'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'com.android.support:design:27.1.1'
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.7.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
-    //Twitter4j
-    implementation 'org.twitter4j:twitter4j-core:4.0.2'
     //For authentication
     implementation 'com.loopj.android:android-async-http:1.4.9'
     implementation 'com.google.code.gson:gson:2.8.0'
+    //circle image library
+    compile 'com.joooonho:selectableroundedimageview:1.0.1'
 }

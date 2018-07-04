@@ -1,29 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:axmlns="http://schemas.android.com/tools"
+    android:orientation="vertical">
 
     <include
         android:id="@+id/include"
-        layout="@layout/toolbar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        layout="@layout/toolbar" />
 
-    <TextView android:id="@id/android:empty"
+    <LinearLayout
+        android:layout_margin="10sp"
+        android:id="@+id/layout_tweet"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal|center_vertical"
-        android:text="No Tweets"/>
+        android:layout_height="wrap_content"
+        android:background="@color/text_color"
+        android:orientation="horizontal">
 
-    <ListView android:id="@id/android:list"
+        <com.joooonho.SelectableRoundedImageView
+            android:id="@+id/image_profile"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/profile_image"
+            app:sriv_border_color="@color/text_color"
+            app:sriv_border_width="2dip"
+            app:sriv_left_bottom_corner_radius="90dip"
+            app:sriv_left_top_corner_radius="90dip"
+            app:sriv_oval="true"
+            app:sriv_right_bottom_corner_radius="90dip"
+            app:sriv_right_top_corner_radius="90dip"
+            axmlns:app="http://schemas.android.com/apk/res-auto" />
+
+        <EditText
+            android:onClick="addTweet"
+            android:id="@+id/edit_tweet"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4" />
+
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/list_tweets"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:divider="#e1e8ed"
+        android:divider="@color/twitter_color"
         android:dividerHeight="1dp"
-        android:drawSelectorOnTop="false"/>
+        android:drawSelectorOnTop="false" />
+
+
 </LinearLayout>

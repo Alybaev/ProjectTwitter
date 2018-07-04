@@ -4,13 +4,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.view.MenuItem
 import android.widget.Toast
 import com.icoder.twitterproject.R
-import com.icoder.twitterproject.R.id.login_button
 import com.icoder.twitterproject.ui.Homepage.Homepage
-import com.icoder.twitterproject.utils.Constants.Companion.USER_ID_KEY
+import com.icoder.twitterproject.utils.Constants.Companion.KEY_USER_NAME
+import com.icoder.twitterproject.utils.Constants.Companion.KEY_USER_ID
 import com.twitter.sdk.android.core.*
 import kotlinx.android.synthetic.main.activity_login.*
+import com.twitter.sdk.android.core.Twitter
+import kotlinx.android.synthetic.main.toolbar.*
 
 
 class LoginActivity : AppCompatActivity() {
@@ -20,6 +23,8 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Twitter.initialize(this)
         setContentView(R.layout.activity_login)
+        title = "Twitter"
+        setSupportActionBar(findViewById(R.id.toolbar))
 
         /*
           Adding a callback to loginButton
@@ -49,10 +54,12 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
+
     fun login(session: TwitterSession) {
 
         val intent = Intent(this@LoginActivity, Homepage::class.java)
-        intent.putExtra(USER_ID_KEY, session.userId)
+        intent.putExtra(KEY_USER_ID, session.userId)
+        intent.putExtra(KEY_USER_NAME, session.userName)
 
         startActivity(intent)
     }
@@ -62,6 +69,12 @@ class LoginActivity : AppCompatActivity() {
 
         // Pass the activity result to the login button.
         login_button.onActivityResult(requestCode, resultCode, data)
+    }
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item!!.itemId == android.R.id.home)
+            onBackPressed()
+
+        return super.onOptionsItemSelected(item)
     }
 
 }

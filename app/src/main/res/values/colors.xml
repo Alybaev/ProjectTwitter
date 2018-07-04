@@ -5,4 +5,5 @@
     <color name="colorAccent">#FF4081</color>
     <color name="twitter_color">#1da0f1</color>
     <color name="text_color">#ffffff</color>
+    <color name="edit_text_background">#bfdaed</color>
 </resources>

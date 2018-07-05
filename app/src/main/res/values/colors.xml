@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="twitter_color">#1da0f1</color>
-    <color name="text_color">#ffffff</color>
+    <color name="text_color">#FFFFFF</color>
     <color name="edit_text_background">#bfdaed</color>
+    <color name="background_tweet">#D3D3D3</color>
+    <color name="background_homepage">#D3D3D3</color>
 </resources>

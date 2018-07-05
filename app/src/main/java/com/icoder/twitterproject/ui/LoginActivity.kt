@@ -8,12 +8,10 @@ import android.view.MenuItem
 import android.widget.Toast
 import com.icoder.twitterproject.R
 import com.icoder.twitterproject.ui.Homepage.Homepage
-import com.icoder.twitterproject.utils.Constants.Companion.KEY_USER_NAME
 import com.icoder.twitterproject.utils.Constants.Companion.KEY_USER_ID
+import com.icoder.twitterproject.utils.Constants.Companion.KEY_USER_NAME
 import com.twitter.sdk.android.core.*
 import kotlinx.android.synthetic.main.activity_login.*
-import com.twitter.sdk.android.core.Twitter
-import kotlinx.android.synthetic.main.toolbar.*
 
 
 class LoginActivity : AppCompatActivity() {
@@ -48,7 +46,7 @@ class LoginActivity : AppCompatActivity() {
             override fun failure(exception: TwitterException) {
                 //Displaying Toast message
                 Log.e("________", exception.toString())
-                Toast.makeText(this@LoginActivity, "Authentication failed!", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@LoginActivity, "Please Download Twitter ", Toast.LENGTH_LONG).show()
             }
         }
 

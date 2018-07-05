@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:axmlns="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:axmlns="http://schemas.android.com/tools"
+    android:background="@color/background_homepage"
     android:orientation="vertical">
 
     <include
@@ -11,10 +12,10 @@
         layout="@layout/toolbar" />
 
     <LinearLayout
-        android:layout_margin="10sp"
         android:id="@+id/layout_tweet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10sp"
         android:background="@color/text_color"
         android:orientation="horizontal">
 
@@ -34,11 +35,11 @@
             axmlns:app="http://schemas.android.com/apk/res-auto" />
 
         <EditText
-            android:onClick="addTweet"
             android:id="@+id/edit_tweet"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="4" />
+            android:layout_weight="4"
+            android:onClick="addTweet" />
 
 
     </LinearLayout>
@@ -46,11 +47,11 @@
     <ListView
         android:id="@+id/list_tweets"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:divider="@color/twitter_color"
-        android:dividerHeight="1dp"
-        android:drawSelectorOnTop="false" />
+        android:layout_height="wrap_content"
+        android:layout_margin="10sp"
+        android:background="@color/background_tweet"
+        android:divider="@drawable/list_lines_rectangle"
+        android:dividerHeight="3dp" />
 
 
 </LinearLayout>

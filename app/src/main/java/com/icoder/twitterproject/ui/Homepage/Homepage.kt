@@ -7,6 +7,7 @@ import android.view.MenuItem
 import android.view.View
 import com.bumptech.glide.Glide
 import com.icoder.twitterproject.R
+import com.icoder.twitterproject.R.layout.design_menu_item_action_area
 import com.icoder.twitterproject.R.layout.homepage
 import com.icoder.twitterproject.utils.Constants.Companion.KEY_USER_ID
 import com.icoder.twitterproject.utils.Constants.Companion.KEY_USER_NAME
@@ -70,6 +71,7 @@ class Homepage : AppCompatActivity() {
 
         val adapter = TweetTimelineListAdapter.Builder(this)
                 .setTimeline(userTimeline)
+                .setViewStyle(R.style.tw__TweetLightStyle)
                 .build()
 
         list_tweets.adapter = adapter
@@ -77,7 +79,7 @@ class Homepage : AppCompatActivity() {
     fun callTwitterApiClient(){
         val twitterApiClient = TwitterCore.getInstance().apiClient
         val statusesService = twitterApiClient.statusesService
-        val call = statusesService.userTimeline(userId,null,null,null,null,null,null,null,null)
+        val call = statusesService.userTimeline(userId,null,null,null,null,true,false,true,true)
         call.enqueue(object : Callback<List<Tweet>>() {
             override fun success(result: Result<List<Tweet>>) {
                 Log.d("__________", result.data[0].text)

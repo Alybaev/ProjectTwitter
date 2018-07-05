@@ -5,7 +5,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/text_color</item>
+        <item name="colorAccent">@color/twitter_color</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -14,7 +14,7 @@
     </style>
 
     <style name="CustomTheme" parent="tw__TweetDarkStyle">
-        <item name="tw__container_bg_color" >@color/background_tweet</item>
+        <item name="tw__container_bg_color" >@drawable/frame_item_list</item>
     </style>
 
 </resources>

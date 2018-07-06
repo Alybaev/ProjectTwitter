@@ -6,47 +6,29 @@
     android:layout_height="match_parent"
     android:background="@color/background_homepage"
     android:orientation="vertical">
-
-    <include
-        android:id="@+id/include"
-        layout="@layout/toolbar" />
-
-    <LinearLayout
-        android:id="@+id/layout_tweet"
+    <FrameLayout
+        android:id="@+id/toolbar_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10sp"
-        android:background="@drawable/frame_edit_text"
-        android:orientation="horizontal"
-        android:padding="5sp">
+        android:layout_height="wrap_content">
 
-        <com.joooonho.SelectableRoundedImageView
-            android:id="@+id/image_profile"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@drawable/profile_image"
-            app:sriv_border_color="@color/text_color"
-            app:sriv_border_width="2dip"
-            app:sriv_left_bottom_corner_radius="90dip"
-            app:sriv_left_top_corner_radius="90dip"
-            app:sriv_oval="true"
-            app:sriv_right_bottom_corner_radius="90dip"
-            app:sriv_right_top_corner_radius="90dip"
-            axmlns:app="http://schemas.android.com/apk/res-auto" />
+        <include
+            android:id="@+id/include"
+            layout="@layout/toolbar" />
 
-        <EditText
-            android:id="@+id/edit_tweet"
-            android:hint="What's new"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="4"
-            android:onClick="addTweet"
-        />
-        <requestFocus />
+        <com.miguelcatalan.materialsearchview.MaterialSearchView
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
 
-    </LinearLayout>
-    <LinearLayout
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id = "@+id/swipe_layout_refresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/frame_item_list"
@@ -58,9 +40,48 @@
         android:id="@+id/list_tweets"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="#000000"
+        android:divider="@color/background_homepage"
         android:dividerHeight="1dp"/>
-    </LinearLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
+        <LinearLayout
+            android:id="@+id/layout_tweet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20sp"
+            android:background="@drawable/frame_edit_text"
+            android:orientation="horizontal"
+            android:padding="5sp"
+            android:layout_gravity="bottom|center_horizontal">
 
+            <com.joooonho.SelectableRoundedImageView
+                android:id="@+id/image_profile"
+                android:onClick="initTwitterUserListAdapter"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/profile_image"
+                app:sriv_border_color="@color/text_color"
+                app:sriv_border_width="2dip"
+                app:sriv_left_bottom_corner_radius="90dip"
+                app:sriv_left_top_corner_radius="90dip"
+                app:sriv_oval="true"
+                app:sriv_right_bottom_corner_radius="90dip"
+                app:sriv_right_top_corner_radius="90dip"
+                axmlns:app="http://schemas.android.com/apk/res-auto" />
+
+            <EditText
+                android:focusable="false"
+                android:id="@+id/edit_tweet"
+                android:hint="What's new"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:onClick="addTweet"
+                />
+
+
+        </LinearLayout>
+    </FrameLayout>
 
 </LinearLayout>
+

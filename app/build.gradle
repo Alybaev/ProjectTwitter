@@ -53,4 +53,6 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.0'
     //circle image library
     compile 'com.joooonho:selectableroundedimageview:1.0.1'
+    // search button
+    compile 'com.miguelcatalan:materialsearchview:1.4.0'
 }

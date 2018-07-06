@@ -34,7 +34,7 @@
         tools:text="Login" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/twitter_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -53,12 +53,12 @@
         android:layout_height="0dp"
         android:layout_marginBottom="12dp"
         android:textColor="@color/text_color"
-        android:text="Please press the button
-        for authentication"
+        android:text="@string/authentification"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/login_button"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
+
 
 
 </android.support.constraint.ConstraintLayout>

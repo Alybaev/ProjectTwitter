@@ -6,4 +6,5 @@
     <string name="com.twitter.sdk.android.CONSUMER_SECRET"> S8wFuneWZMstBeq9qtdnQVQAUOotWw2c6XSoGcEjk7oYQjlRlk</string>
         <string name="access_token">1013645904811905024-oumdhqMx84b7aATiCMmqQBL5vmbQtT</string>
     <string name="access_token_secret">10YPqUI8GHTVqtJTkE5gpbvJ4V7VB4xrCnD75XUghxOIA</string>
+    <string name="authentification">Please press the button   for authentification</string>
 </resources>

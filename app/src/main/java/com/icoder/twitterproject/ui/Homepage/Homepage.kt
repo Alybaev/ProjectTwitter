@@ -3,6 +3,8 @@ package com.icoder.twitterproject.ui.Homepage
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
@@ -16,12 +18,8 @@ import com.twitter.sdk.android.core.Result
 import com.twitter.sdk.android.core.TwitterCore
 import com.twitter.sdk.android.core.TwitterException
 import com.twitter.sdk.android.core.models.Tweet
-import com.twitter.sdk.android.tweetcomposer.ComposerActivity
 import com.twitter.sdk.android.tweetcomposer.TweetComposer
-import com.twitter.sdk.android.tweetui.FixedTweetTimeline
-import com.twitter.sdk.android.tweetui.TimelineResult
-import com.twitter.sdk.android.tweetui.TweetTimelineListAdapter
-import com.twitter.sdk.android.tweetui.UserTimeline
+import com.twitter.sdk.android.tweetui.*
 import kotlinx.android.synthetic.main.homepage.*
 import kotlinx.android.synthetic.main.toolbar.*
 
@@ -69,7 +67,7 @@ class Homepage : AppCompatActivity() {
     fun callTwitterApiClient() {
         val twitterApiClient = TwitterCore.getInstance().apiClient
         val statusesService = twitterApiClient.statusesService
-        val call = statusesService.homeTimeline(null, null, null, null, true, false, true)
+        val call = statusesService.homeTimeline(50, null, null, true, true, false, true)
         call.enqueue(object : Callback<List<Tweet>>() {
             override fun success(result: Result<List<Tweet>>) {
                 initTwitterListAdapter(result.data)
@@ -82,29 +80,33 @@ class Homepage : AppCompatActivity() {
     }
 
     fun initTwitterListAdapter(data: List<Tweet>) {
-
-
+        var layoutManager = LinearLayoutManager(this)
+       list_tweets.layoutManager = layoutManager
+        val dividerItemDecoration = DividerItemDecoration(list_tweets.context,layoutManager.orientation)
+        list_tweets.addItemDecoration(dividerItemDecoration)
         val userTimeline = FixedTweetTimeline.Builder()
                 .setTweets(data)
                 .build()
 
-        val adapter = TweetTimelineListAdapter.Builder(this)
+        val adapter = TweetTimelineRecyclerViewAdapter.Builder(this)
                 .setTimeline(userTimeline)
                 .setViewStyle(R.style.tw__TweetLightStyle)
                 .build()
 
         list_tweets.adapter = adapter
-        swipe_layout_refresh.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
-            swipe_layout_refresh.isRefreshing = true
-            adapter!!.refresh(object : Callback<TimelineResult<Tweet>>() {
-                override fun success(result: Result<TimelineResult<Tweet>>) {
-                    swipe_layout_refresh.isRefreshing = false
-                }
+        swipe_layout_refresh.setOnRefreshListener(object : SwipeRefreshLayout.OnRefreshListener {
+            override fun onRefresh() {
+                swipe_layout_refresh.isRefreshing = true
+                adapter!!.refresh(object : Callback<TimelineResult<Tweet>>() {
+                    override fun success(result: Result<TimelineResult<Tweet>>) {
+                        swipe_layout_refresh.isRefreshing = false
+                    }
 
-                override fun failure(exception: TwitterException) {
-                    "There are no new tweets"
-                }
-            })
+                    override fun failure(exception: TwitterException) {
+                        "There are no new tweets"
+                    }
+                })
+            }
         })
     }
 

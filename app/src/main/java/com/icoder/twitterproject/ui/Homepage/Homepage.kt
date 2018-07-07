@@ -25,8 +25,8 @@ import kotlinx.android.synthetic.main.toolbar.*
 
 class Homepage : AppCompatActivity() {
 
-    var userId : Long? = null
-    var userName : String? = null
+    var userId: Long? = null
+    var userName: String? = null
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,13 +35,13 @@ class Homepage : AppCompatActivity() {
 
 
         init()
-  /*    maybe I need this method later */
- //       callTwitterApiClient()
-
+        /*    maybe I need this method later */
+        //       callTwitterApiClient()
 
 
     }
-    fun init(){
+
+    fun init() {
         initToolbar()
         initReceivedData()
         callTwitterApiClient()
@@ -55,13 +55,29 @@ class Homepage : AppCompatActivity() {
                 .into(image_profile)
     }
 
-    fun initReceivedData(){
+    fun initReceivedData() {
         userName = intent.getStringExtra(KEY_USER_NAME)
         title = "@" + userName
 
 
-        userId = intent.getLongExtra(KEY_USER_ID,0)
+        userId = intent.getLongExtra(KEY_USER_ID, 0)
     }
+
+    fun callTwitterApiClient() {
+        val twitterApiClient = TwitterCore.getInstance().apiClient
+        val statusesService = twitterApiClient.statusesService
+        val call = statusesService.homeTimeline(null, null, null, null, true, false, true)
+        call.enqueue(object : Callback<List<Tweet>>() {
+            override fun success(result: Result<List<Tweet>>) {
+                initTwitterListAdapter(result.data)
+            }
+
+            override fun failure(exception: TwitterException) {
+                Log.d("_______EXCEPTION", "Tweets call Exception")
+            }
+        })
+    }
+
     fun initTwitterListAdapter(data: List<Tweet>) {
 
 
@@ -76,32 +92,20 @@ class Homepage : AppCompatActivity() {
 
         list_tweets.adapter = adapter
     }
-    fun callTwitterApiClient(){
-        val twitterApiClient = TwitterCore.getInstance().apiClient
-        val statusesService = twitterApiClient.statusesService
-        val call = statusesService.homeTimeline(null,null,null,null,true,false,true)
-        call.enqueue(object : Callback<List<Tweet>>() {
-            override fun success(result: Result<List<Tweet>>) {
-                initTwitterListAdapter(result.data)
-            }
-
-            override fun failure(exception: TwitterException) {
-                Log.d("_______EXCEPTION","Tweets call Exception")
-            }
-        })
-    }
 
     private fun initToolbar() {
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
+
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item!!.itemId == android.R.id.home)
             onBackPressed()
 
         return super.onOptionsItemSelected(item)
     }
-    fun addTweet(v : View){
+
+    fun addTweet(v: View) {
         val session = TwitterCore.getInstance().sessionManager
                 .activeSession
         val intent = ComposerActivity.Builder(this)

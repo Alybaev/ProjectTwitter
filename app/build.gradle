@@ -52,5 +52,7 @@ dependencies {
     implementation 'com.loopj.android:android-async-http:1.4.9'
     implementation 'com.google.code.gson:gson:2.8.0'
     //circle image library
-    compile 'com.joooonho:selectableroundedimageview:1.0.1'
+    implementation 'com.joooonho:selectableroundedimageview:1.0.1'
+    // search button
+
 }

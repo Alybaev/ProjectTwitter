@@ -1,12 +1,12 @@
 package com.icoder.twitterproject.ui.Homepage
 
+import android.app.PendingIntent.getActivity
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
-import android.view.MenuItem
 import android.view.View
 import com.bumptech.glide.Glide
 import com.icoder.twitterproject.R
@@ -70,7 +70,18 @@ class Homepage : AppCompatActivity() {
         val call = statusesService.homeTimeline(50, null, null, true, true, false, true)
         call.enqueue(object : Callback<List<Tweet>>() {
             override fun success(result: Result<List<Tweet>>) {
-                initTwitterListAdapter(result.data)
+  //              initTwitterListAdapter(result.data[0].user.)
+                for(i in 0 until result.data.size){
+                    val tweetId = result.data[i].id
+                    TweetUtils.loadTweet(tweetId, object:Callback<Tweet>() {
+                        override fun success(result:Result<Tweet>) {
+//                            my__tweet_layout.addView(TweetView(this@Homepage, result.data))
+                        }
+                        override fun failure(exception:TwitterException) {
+                            // Toast.makeText(...).show();
+                        }
+                    })
+                }
             }
 
             override fun failure(exception: TwitterException) {
@@ -79,54 +90,48 @@ class Homepage : AppCompatActivity() {
         })
     }
 
-    fun initTwitterListAdapter(data: List<Tweet>) {
-        var layoutManager = LinearLayoutManager(this)
-       list_tweets.layoutManager = layoutManager
-        val dividerItemDecoration = DividerItemDecoration(list_tweets.context,layoutManager.orientation)
-        list_tweets.addItemDecoration(dividerItemDecoration)
-        val userTimeline = FixedTweetTimeline.Builder()
-                .setTweets(data)
-                .build()
-
-        val adapter = TweetTimelineRecyclerViewAdapter.Builder(this)
-                .setTimeline(userTimeline)
-                .setViewStyle(R.style.tw__TweetLightStyle)
-                .build()
-
-        list_tweets.adapter = adapter
-        swipe_layout_refresh.setOnRefreshListener(object : SwipeRefreshLayout.OnRefreshListener {
-            override fun onRefresh() {
-                swipe_layout_refresh.isRefreshing = true
-                adapter!!.refresh(object : Callback<TimelineResult<Tweet>>() {
-                    override fun success(result: Result<TimelineResult<Tweet>>) {
-                        swipe_layout_refresh.isRefreshing = false
-                    }
-
-                    override fun failure(exception: TwitterException) {
-                        "There are no new tweets"
-                    }
-                })
-            }
-        })
-    }
+//    fun initTwitterListAdapter(data: List<Tweet>) {
+//        var layoutManager = LinearLayoutManager(this)
+//        list_tweets.layoutManager = layoutManager
+//        val dividerItemDecoration = DividerItemDecoration(list_tweets.context, layoutManager.orientation)
+//        list_tweets.addItemDecoration(dividerItemDecoration)
+//        val userTimeline = FixedTweetTimeline.Builder()
+//                .setTweets(data)
+//                .build()
+//
+//        val adapter = TweetTimelineRecyclerViewAdapter.Builder(this)
+//                .setTimeline(userTimeline)
+//                .setViewStyle(R.style.tw__TweetLightStyle)
+//                .build()
+//        list_tweets.adapter = adapter
+//        swipe_layout_refresh.setOnRefreshListener(object : SwipeRefreshLayout.OnRefreshListener {
+//            override fun onRefresh() {
+//                swipe_layout_refresh.isRefreshing = true
+//                adapter!!.refresh(object : Callback<TimelineResult<Tweet>>() {
+//                    override fun success(result: Result<TimelineResult<Tweet>>) {
+//                        swipe_layout_refresh.isRefreshing = false
+//                    }
+//
+//                    override fun failure(exception: TwitterException) {
+//                        "There are no new tweets"
+//                    }
+//                })
+//            }
+//        })
+//    }
 
     private fun initToolbar() {
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item!!.itemId == android.R.id.home)
-            onBackPressed()
-
-        return super.onOptionsItemSelected(item)
-    }
 
     fun addTweet(v: View) {
         val builder = TweetComposer.Builder(this)
                 .text("What's new?")
         builder.show()
     }
+
 
 }
 

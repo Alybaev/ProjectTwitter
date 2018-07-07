@@ -7,7 +7,6 @@ import android.view.MenuItem
 import android.view.View
 import com.bumptech.glide.Glide
 import com.icoder.twitterproject.R
-import com.icoder.twitterproject.R.layout.design_menu_item_action_area
 import com.icoder.twitterproject.R.layout.homepage
 import com.icoder.twitterproject.utils.Constants.Companion.KEY_USER_ID
 import com.icoder.twitterproject.utils.Constants.Companion.KEY_USER_NAME
@@ -17,6 +16,7 @@ import com.twitter.sdk.android.core.TwitterCore
 import com.twitter.sdk.android.core.TwitterException
 import com.twitter.sdk.android.core.models.Tweet
 import com.twitter.sdk.android.tweetcomposer.ComposerActivity
+import com.twitter.sdk.android.tweetui.FixedTweetTimeline
 import com.twitter.sdk.android.tweetui.TweetTimelineListAdapter
 import com.twitter.sdk.android.tweetui.UserTimeline
 import kotlinx.android.synthetic.main.homepage.*
@@ -44,7 +44,7 @@ class Homepage : AppCompatActivity() {
     fun init(){
         initToolbar()
         initReceivedData()
-        initTwitterListAdapter()
+        callTwitterApiClient()
         initProfileImage()
     }
 
@@ -62,11 +62,11 @@ class Homepage : AppCompatActivity() {
 
         userId = intent.getLongExtra(KEY_USER_ID,0)
     }
-    fun initTwitterListAdapter(){
+    fun initTwitterListAdapter(data: List<Tweet>) {
 
 
-        val userTimeline = UserTimeline.Builder()
-                .userId(userId)
+        val userTimeline = FixedTweetTimeline.Builder()
+                .setTweets(data)
                 .build()
 
         val adapter = TweetTimelineListAdapter.Builder(this)
@@ -79,10 +79,10 @@ class Homepage : AppCompatActivity() {
     fun callTwitterApiClient(){
         val twitterApiClient = TwitterCore.getInstance().apiClient
         val statusesService = twitterApiClient.statusesService
-        val call = statusesService.userTimeline(userId,null,null,null,null,true,false,true,true)
+        val call = statusesService.homeTimeline(null,null,null,null,true,false,true)
         call.enqueue(object : Callback<List<Tweet>>() {
             override fun success(result: Result<List<Tweet>>) {
-                Log.d("__________", result.data[0].text)
+                initTwitterListAdapter(result.data)
             }
 
             override fun failure(exception: TwitterException) {

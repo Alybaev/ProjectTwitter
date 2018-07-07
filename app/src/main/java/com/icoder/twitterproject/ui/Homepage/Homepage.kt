@@ -1,6 +1,7 @@
 package com.icoder.twitterproject.ui.Homepage
 
 import android.os.Bundle
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.MenuItem
@@ -16,7 +17,9 @@ import com.twitter.sdk.android.core.TwitterCore
 import com.twitter.sdk.android.core.TwitterException
 import com.twitter.sdk.android.core.models.Tweet
 import com.twitter.sdk.android.tweetcomposer.ComposerActivity
+import com.twitter.sdk.android.tweetcomposer.TweetComposer
 import com.twitter.sdk.android.tweetui.FixedTweetTimeline
+import com.twitter.sdk.android.tweetui.TimelineResult
 import com.twitter.sdk.android.tweetui.TweetTimelineListAdapter
 import com.twitter.sdk.android.tweetui.UserTimeline
 import kotlinx.android.synthetic.main.homepage.*
@@ -91,6 +94,18 @@ class Homepage : AppCompatActivity() {
                 .build()
 
         list_tweets.adapter = adapter
+        swipe_layout_refresh.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
+            swipe_layout_refresh.isRefreshing = true
+            adapter!!.refresh(object : Callback<TimelineResult<Tweet>>() {
+                override fun success(result: Result<TimelineResult<Tweet>>) {
+                    swipe_layout_refresh.isRefreshing = false
+                }
+
+                override fun failure(exception: TwitterException) {
+                    "There are no new tweets"
+                }
+            })
+        })
     }
 
     private fun initToolbar() {
@@ -106,14 +121,9 @@ class Homepage : AppCompatActivity() {
     }
 
     fun addTweet(v: View) {
-        val session = TwitterCore.getInstance().sessionManager
-                .activeSession
-        val intent = ComposerActivity.Builder(this)
-                .session(session)
-                .text("Love where you work")
-                .hashtags("#twitter")
-                .createIntent()
-        startActivity(intent)
+        val builder = TweetComposer.Builder(this)
+                .text("What's new?")
+        builder.show()
     }
 
 }

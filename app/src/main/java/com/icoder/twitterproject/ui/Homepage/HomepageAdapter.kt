@@ -8,7 +8,7 @@ import com.icoder.twitterproject.R
 import com.twitter.sdk.android.core.models.Tweet
 import kotlinx.android.synthetic.main.tweet_cell.view.*
 
-class HomepageAdapter(var arrayTweets: ArrayList<Tweet>) : RecyclerView.Adapter<HomepageAdapter.MViewHolder>() {
+class HomepageAdapter(var arrayTweets: List<Tweet>) : RecyclerView.Adapter<HomepageAdapter.MViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MViewHolder {
         return MViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.tweet_cell, null, false))
@@ -19,7 +19,7 @@ class HomepageAdapter(var arrayTweets: ArrayList<Tweet>) : RecyclerView.Adapter<
     }
 
     override fun onBindViewHolder(holder: MViewHolder, position: Int) {
-        holder.tweets.tweet = arrayTweets[position]
+        holder.view_tweet.tweet = arrayTweets[position]
 
 
 
@@ -27,11 +27,11 @@ class HomepageAdapter(var arrayTweets: ArrayList<Tweet>) : RecyclerView.Adapter<
     }
 
     inner class MViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var tweets = view.bike_tweet
+        var view_tweet = view.bike_tweet
 
     }
 
-    fun setMData(idOfTweet: ArrayList<Tweet>) {
+    fun setMData(idOfTweet: List<Tweet>) {
         this.arrayTweets = idOfTweet
         notifyDataSetChanged()
     }

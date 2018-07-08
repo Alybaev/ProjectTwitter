@@ -15,19 +15,33 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycle_view_tweets"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_layout_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="10sp"
-            android:layout_marginEnd="10sp">
+            android:layout_marginEnd="10sp"
+            android:scrollbars="none">
 
-        </android.support.v7.widget.RecyclerView>
 
         <LinearLayout
-            android:id="@+id/layout_tweet"
+            android:id="@+id/tweet_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:showDividers="middle"
+            android:divider="@drawable/empty_tall_divider"
+            android:orientation="vertical">
+
+        </LinearLayout>
+        </ScrollView>
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <LinearLayout
+            android:id="@+id/add_tweet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20sp"

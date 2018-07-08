@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import com.bumptech.glide.Glide
 import com.icoder.twitterproject.R
+import com.icoder.twitterproject.R.id.*
 import com.icoder.twitterproject.R.layout.homepage
 import com.icoder.twitterproject.utils.Constants.Companion.KEY_USER_ID
 import com.icoder.twitterproject.utils.Constants.Companion.KEY_USER_NAME
@@ -19,6 +20,8 @@ import com.twitter.sdk.android.tweetui.TweetUtils
 import com.twitter.sdk.android.tweetui.TweetView
 import kotlinx.android.synthetic.main.homepage.*
 import kotlinx.android.synthetic.main.toolbar.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class Homepage : AppCompatActivity() {
@@ -26,9 +29,7 @@ class Homepage : AppCompatActivity() {
     var userId: Long? = null
     var userName: String? = null
 
-    private var twitterApiClient: TwitterApiClient? = null
     private var tweetHomepage: List<Tweet>? = null
-    private var statusesService: StatusesService? = null
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,9 +37,9 @@ class Homepage : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
 
 
+
         init()
-        /*    maybe I need this method later */
-        //       callTwitterApiClient()
+
 
 
     }
@@ -52,7 +53,6 @@ class Homepage : AppCompatActivity() {
     }
 
     private fun initTweets() {
-        initTwitterHomelineServices()
         callTwitterApiClient()
         addTweetIntoLayout()
     }
@@ -73,23 +73,15 @@ class Homepage : AppCompatActivity() {
         userId = intent.getLongExtra(KEY_USER_ID, 0)
     }
 
-    fun initTwitterHomelineServices(){
-        twitterApiClient = TwitterCore.getInstance().apiClient
-        statusesService = twitterApiClient!!.statusesService
-    }
-
-
 
 
     fun callTwitterApiClient() {
-
-        val call = statusesService!!.homeTimeline(null, null, null, true, true, false, true)
+        var twitterApiClient = TwitterCore.getInstance().apiClient
+        var statusesService = twitterApiClient!!.statusesService
+        val call = statusesService!!.homeTimeline(50, null, null, true, true, false, true)
         call.enqueue(object : Callback<List<Tweet>>() {
             override fun success(result: Result<List<Tweet>>) {
-                for (i in 0 until result.data.size) {
-                    tweetHomepage = result.data
-
-                }
+                tweetHomepage = result.data
 
             }
 
@@ -98,8 +90,9 @@ class Homepage : AppCompatActivity() {
             }
         })
     }
-    fun addTweetIntoLayout(){
-        for(i in 0 until tweetHomepage!!.size) {
+
+    fun addTweetIntoLayout() {
+        for (i in 0 until tweetHomepage!!.size) {
             TweetUtils.loadTweet(tweetHomepage!![i].id, object : Callback<Tweet>() {
                 override fun success(result: Result<Tweet>) {
                     tweet_layout.addView(TweetView(this@Homepage, result.data))
@@ -112,6 +105,7 @@ class Homepage : AppCompatActivity() {
             })
         }
     }
+
     fun swipeLayoutListener() {
         swipe_layout_refresh.setOnRefreshListener(object : SwipeRefreshLayout.OnRefreshListener {
             override fun onRefresh() {
@@ -122,8 +116,32 @@ class Homepage : AppCompatActivity() {
     }
 
     private fun refreshTweets() {
+        var oldTweets = tweetHomepage
+        var oldTweetId = getArrayOfTweetsId(oldTweets)
+
         callTwitterApiClient()
 
+        var newTweets = tweetHomepage!!.toTypedArray()
+
+        Arrays.sort(oldTweetId)
+        for (i in 0 until newTweets!!.size) {
+            if (Arrays.binarySearch(oldTweetId, newTweets[i].id) < 0) {
+                tweet_layout.addView(TweetView(this@Homepage, newTweets[i]), 0)
+
+            }
+        }
+        swipe_layout_refresh.isRefreshing = false
+
+    }
+
+    private fun getArrayOfTweetsId(initialTweets: List<Tweet>?): Array<Long> {
+        var idArray = ArrayList<Long>()
+        for (i in 0 until initialTweets!!.size) {
+            idArray.add(initialTweets[i].id)
+        }
+
+        var res = idArray.toTypedArray()
+        return res
     }
 
 
